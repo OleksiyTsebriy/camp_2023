@@ -1,0 +1,3 @@
+Reading the regular text file
+It is easy :)
+Have a nice day!
