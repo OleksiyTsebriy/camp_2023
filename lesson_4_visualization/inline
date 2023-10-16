@@ -1,0 +1,2389 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "1e4707aa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn import datasets\n",
+    "import pandas as pd\n",
+    "iris = datasets.load_iris()\n",
+    "data = iris.data\n",
+    "target = iris.target\n",
+    "feature_names = iris.feature_names\n",
+    "target_names = iris.target_names\n",
+    "data_df = pd.DataFrame(columns=feature_names, data=data)\n",
+    "data_df[\"target\"] = target\n",
+    "data_df['name'] = data_df[\"target\"].apply(lambda target: target_names[target])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "f11031c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "15c10bc2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib as mpl\n",
+    "mpl.get_backend()\n",
+    "# Output: 'module://ipykernel.pylab.backend_inline'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "08c1edaf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%matplotlib notebook\n",
+    "# %matplotlib inline\n",
+    "mpl.get_backend()\n",
+    "# Output : 'nbAgg'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "c6513e11",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "8a1ff887",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.plot(1, 3) # no mark\n",
+    "plt.plot(1.5, 0, '.') # small point\n",
+    "plt.plot(1.5, 4, 'x') # x mark\n",
+    "plt.plot(2, 2, 'o')\n",
+    "plt.plot([1, 3, 5], [3, 5, -1], '-o', c='red') # joined\n",
+    "plt.show();\n",
+    "# Note\n",
+    "    # different colors since it considers as different series\n",
+    "    # This is scripting layer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "7fd16b75",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "rng = np.random.RandomState(2023)\n",
+    "\n",
+    "# create new figure\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "for marker in ['o', '.', ',', 'x', '+', 'v', '^', '<', '>', 's', 'd']:\n",
+    "    plt.plot(rng.rand(5), rng.rand(5), marker, label=f\"marker='{marker}'\")\n",
+    "\n",
+    "plt.legend()\n",
+    "plt.xlim(0, 2);\n",
+    "plt.title('Scatterplot')\n",
+    "plt.xlabel('x-labels')\n",
+    "plt.ylabel('y-labels');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "2da39829",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "y = np.arange(0, 10, 2)\n",
+    "plt.plot(y, '-o');\n",
+    "# Note x-vals resolved automatically"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "3a6dd647",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = np.linspace(0, 10, 20)\n",
+    "y = np.sin(x)\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.plot(\n",
+    "    x,\n",
+    "    y,\n",
+    "    '-p',\n",
+    "    color='gray',\n",
+    "    markersize=15,\n",
+    "    linewidth=4,\n",
+    "    markerfacecolor='white',\n",
+    "    markeredgecolor='gray',\n",
+    "    markeredgewidth=2\n",
+    ")\n",
+    "\n",
+    "plt.ylim(-1.5, 1.5);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "59031ee0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "linear_data = np.arange(10)\n",
+    "exponential_data = linear_data ** 2\n",
+    "plt.plot(linear_data, '-og')\n",
+    "plt.plot(exponential_data, '--ob')\n",
+    "plt.fill_between(range(10), linear_data, exponential_data, facecolors='yellow', alpha=0.15);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "d594fd64",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# scripting layer \n",
+    "fig = plt.figure()\n",
+    "plt.plot(1, 2, 'x')\n",
+    "plt.title('simple_plot')\n",
+    "\n",
+    "# go down to artist layer\n",
+    "ax = plt.gca() # get current axis \n",
+    "ax.axis([0, 3, -2, 5])\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "a6d16256",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ax.get_children()\n",
+    "# line 2D is the data points \n",
+    "# spines are the borders\n",
+    "# two lables for axis objects and title \n",
+    "# texts are labels for the chart. \n",
+    "# rectangle is the background for the axis"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "932f8552",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1 = plt.subplot(1, 2, 1)\n",
+    "linear_data = np.array([1, 2, 3, 4, 5, 6, 7, 8])\n",
+    "exponential_data = linear_data ** 2\n",
+    "ax1.plot(linear_data, '-o')\n",
+    "ax2 = plt.subplot(1, 2, 2, sharey=ax1) # Note shared y axis\n",
+    "ax2.plot(exponential_data, '-o');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "78e32758",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.gcf().get_axes()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "ff581f90",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "print (plt.gca())\n",
+    "plt.sca(ax1) # set current axis as active\n",
+    "# print (plt.gca())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "8398a332",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.gcf().canvas"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "f6001791",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Use scatter when you don't need to keep consequence of data \n",
+    "\n",
+    "# create some series for x-vals \n",
+    "x = np.arange(20)\n",
+    "\n",
+    "# create some series for y-vals \n",
+    "y = x.copy()\n",
+    "np.random.shuffle(y)\n",
+    "\n",
+    "# create new figure\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "# draw 2 scatters  \n",
+    "plt.scatter(x[:5], y[:5], c='g', s=100, label='low')  \n",
+    "plt.scatter(x[5:], y[5:], color='r', s=50, label='high')\n",
+    "\n",
+    "plt.title('Scatterplot')\n",
+    "\n",
+    "plt.legend(loc=4, title='legend title')\n",
+    "plt.xlabel('x-labels')\n",
+    "plt.ylabel('y-labels');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "6a916770",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "features = iris.data.T\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.scatter(\n",
+    "    features[0],\n",
+    "    features[1],\n",
+    "    alpha=0.4,\n",
+    "    s=100*features[3],\n",
+    "    c=iris.target,\n",
+    "    cmap='viridis'\n",
+    ")\n",
+    "plt.xlabel(iris.feature_names[0])\n",
+    "plt.ylabel(iris.feature_names[1]);\n",
+    "plt.colorbar(); # show color scale"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "a28b64ca",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "linear_data = np.array([1, 2, 3, 4, 5, 6, 7, 8])\n",
+    "x_vals = np.arange(len(linear_data))\n",
+    "plt.bar(x_vals, linear_data);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "da696526",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "plt.barh(x_vals, linear_data, height=0.4);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "0c3cc4b0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "quadratic_data = linear_data ** 2\n",
+    "plt.barh(x_vals, linear_data, height=0.7)\n",
+    "\n",
+    "n = len(x_vals)\n",
+    "added_const = np.array([2]*n)\n",
+    "plt.barh(x_vals, added_const, height=0.7, color='orange', left=linear_data, alpha = .6)\n",
+    "plt.barh(x_vals, quadratic_data, height=0.7, color='orange', left=linear_data, alpha = .6);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "c37c4c7e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data = np.random.randn(10000)\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "plt.hist(data);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "18a17de0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.hist(\n",
+    "    data,\n",
+    "    bins=50,\n",
+    "    alpha=0.5,\n",
+    "    range=(-4,4),\n",
+    "#     histtype='stepfilled',\n",
+    "#     color='steelblue',\n",
+    "    edgecolor='black'\n",
+    ");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "52fb3948",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x1 = np.random.normal(0, 0.8, 10000)\n",
+    "x2 = np.random.normal(-2, 1, 10000)\n",
+    "x3 = np.random.normal(3, 2, 10000)\n",
+    "\n",
+    "kwargs = dict(histtype='stepfilled', alpha=0.3, bins=40)\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "plt.hist(x1, **kwargs)\n",
+    "plt.hist(x2, **kwargs)\n",
+    "plt.hist(x3, **kwargs);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "75522d62",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0,0,0.95,.95])\n",
+    "ax2 = fig.add_axes([0.5,0.1,0.4,0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample) \n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "75a85f7a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.figure()\n",
+    "\n",
+    "x = np.random.random(size=10000)\n",
+    "y = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "\n",
+    "plt.hist2d(x, y, bins=50)\n",
+    "\n",
+    "plt.colorbar()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "ab09f21c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = np.linspace(0, 10, 100)\n",
+    "\n",
+    "plt.figure() # create a plot figure\n",
+    "\n",
+    "# create the first of two panels and set current axis\n",
+    "plt.subplot(2, 1, 1) # (rows, columns, panel number)\n",
+    "plt.plot(x, np.sin(x))\n",
+    "\n",
+    "# create the second panel and set current axis\n",
+    "plt.subplot(2, 1, 2)\n",
+    "plt.plot(x, np.cos(x));"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "02854b8d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.figure()\n",
+    "plt.style.use('seaborn-white')\n",
+    "\n",
+    "for i in range(1, 7): \n",
+    "    plt.subplot(2, 3, i)\n",
+    "    plt.text(0.5, 0.5, str((2, 3, i)),\n",
+    "    fontsize=18, ha='center')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "33319bb8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "fig.subplots_adjust(hspace=0.4, wspace=0.4) \n",
+    "for i in range(1, 7):\n",
+    "    ax = fig.add_subplot(2, 3, i)\n",
+    "    ax.text(0.5, 0.5, str((2, 3, i)),\n",
+    "          fontsize=18, ha='center');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "e5b5104d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig, ax = plt.subplots(2, 3, sharex='col', sharey='row')\n",
+    "ax[0,0].plot(x, np.sin(x))\n",
+    "ax[0,2].plot(x, np.tanh(x))\n",
+    "ax[1,1].plot(x, np.cos(x));"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "bccaf650",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.figure()\n",
+    "vals = np.arange(0.0, 3.0, 0.01)\n",
+    "ax2 = plt.subplot(2,3,3) # use 5th cell of created table of 2 rows and  3 columns \n",
+    "ax2.plot(vals, c='g')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "dcd75c7c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.figure()\n",
+    "ax1 = plt.subplot(212)  # create 2 cells and  use 2nd\n",
+    "ax1.plot(vals, c='r')\n",
+    "\n",
+    "ax2 = plt.subplot(10,7,3) # create 4 cells and  use 1st\n",
+    "ax2.plot(vals, c='g')\n",
+    "\n",
+    "ax3 = plt.subplot(222) # create 4 cells and  use 2nd\n",
+    "ax3.plot(vals, c='b')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "id": "f1098381",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Note: it returns not only axes but figure as first el of tuple \n",
+    "fig, ((ax1, ax2, ax3), (ax4, ax5, ax6)) = plt.subplots(2, 3, sharex=True, sharey=True) # Note : this creates new figure\n",
+    "vals = np.arange(0.0, 3.0, 0.2)\n",
+    "plt.plot(np.random.permutation(vals), '-x') # Note: the last axis is active \n",
+    "ax2.plot(vals, '.')\n",
+    "ax5.plot(np.random.permutation(vals), '-')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "8aa9b9bc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.gridspec as gridspec  \n",
+    "x = np.random.random(size=1000)\n",
+    "y = np.random.randn(1000)\n",
+    "\n",
+    "plt.figure()  # new figure\n",
+    "gspec = gridspec.GridSpec(3, 3)\n",
+    "\n",
+    "# get necessary axes\n",
+    "ax_top_histogram = plt.subplot(gspec[0, 1:])  # this returns axis\n",
+    "ax_side_histogram = plt.subplot(gspec[1:, 0])\n",
+    "ax_lower_right = plt.subplot(gspec[1:, 1:])\n",
+    "\n",
+    "# make necessary drawwing \n",
+    "ax_lower_right.scatter(x, y, s= 5)  # regular scatter\n",
+    "ax_top_histogram.hist(x, bins=100)  # Note:  normed=True, scales to 0-1 range. \n",
+    "ax_side_histogram.hist(y, bins=100, orientation='horizontal')\n",
+    "ax_side_histogram.invert_xaxis()  # flip the histogram for more natural view "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "c71a9f73",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from matplotlib import animation\n",
+    "fig, ax = plt.subplots()\n",
+    "\n",
+    "def update(curr):\n",
+    "    if curr>10:\n",
+    "        a.event_source.stop()\n",
+    "    ax.clear()\n",
+    "    ax.plot(np.random.rand(10))\n",
+    "    plt.title('Animation: {}'.format(curr)) # need to add it once more since it disappears with ax.clear()\n",
+    "#     ax.set_ylim(0, 1)\n",
+    "    \n",
+    "\n",
+    "a = animation.FuncAnimation(fig, update, interval=500) # Note: you need to assign this in order to run the animation if you believe it necessary \n",
+    "# Note use this name to stop animation"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "91fe393e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import scipy.stats as st\n",
+    "import matplotlib as mpl\n",
+    "\n",
+    "def calc_conf_interval(data):\n",
+    "    return st.t.interval(0.95, len(data) - 1, loc=np.mean(data), scale=st.sem(data))\n",
+    "\n",
+    "def onclick(event): # create event handler\n",
+    "    print (event.xdata)\n",
+    "    plt.gca().clear()\n",
+    "    update_plt(event.ydata)\n",
+    "    plt.gcf().canvas.draw() # Note: this is required to refresh the current window\n",
+    "\n",
+    "def calc_prob(threshold, data_column):\n",
+    "    conf_inerval = calc_conf_interval(data_column)\n",
+    "    data_of_interval = data_column[(conf_inerval[0] <= data_column) & (data_column< conf_inerval[1])]\n",
+    "    data_larger= data_of_interval[threshold< data_of_interval]\n",
+    "    return len(data_larger)/len(data_of_interval ) # percentage of data from coef interval that larger than threshold\n",
+    "\n",
+    "\n",
+    "def update_plt(y_line=None):\n",
+    "    df_mean = df.mean()  # get mean of every column\n",
+    "    x_vals = np.arange(len(df.columns))\n",
+    "\n",
+    "    if not y_line: # set initial = before any mouse click\n",
+    "        y_line= df_mean.mean()\n",
+    "\n",
+    "    array_probs = np.array([calc_prob(y_line, df[year_index]) for year_index in df.columns])\n",
+    "    colors = np.array([cmap(array_probs[i]) for i in range(len(df.columns))])  # range 0-1\n",
+    "    bars = plt.bar(x_vals, df_mean, width=1, color = colors, alpha=0.9, edgecolor='black') # plt.errorbar does not work in Jupyter :(\n",
+    "    for i in range(len(df.columns)):\n",
+    "        conf_interval = calc_conf_interval(df[df.columns[i]])\n",
+    "        plt.plot([i, i], conf_interval, '-', color='black')  # draw the vertical line\n",
+    "        for boundary in conf_interval:\n",
+    "            plt.plot([i- 1/4, i + 1/ 4], [boundary, boundary], '-', color = 'black')\n",
+    "\n",
+    "\n",
+    "    plt.xticks(x_vals, df.columns, color='black', alpha=0.7)\n",
+    "    plt.tick_params(bottom=False)\n",
+    "    plt.yticks(color='black', alpha=0.7)\n",
+    "\n",
+    "    max_bar = np.max(df_mean) # get max bar to use it as template for calculation of additional extension of plot area\n",
+    "    ax.axis([-0.6, 4.4, -max_bar*0.2,max_bar*1.3]) # correct plot position\n",
+    "    ax.spines['bottom'].set_position(('data', 0)) # move the x-axis to 0 point\n",
+    "\n",
+    "    xmin, xmax = ax.get_xbound() # get x bounds for line\n",
+    "    plt.axhline(y=y_line, xmin=xmin - 2, xmax=xmax, linewidth=2, color='grey') # draw the line for all\n",
+    "    y_template = df_mean[df.columns[0]]/20\n",
+    "    ax.text(xmax, y_line +y_template/5,str(int(y_line)), ha= 'right', va= 'bottom',color= 'black',fontsize= 10,bbox=dict(facecolor='none', edgecolor='gray', pad=2.0))\n",
+    "    ax.arrow(3.70, y_line+ y_template, 0.0, y_template*3, fc=\"k\", ec=\"k\", head_width=0.1, head_length=y_template*2)\n",
+    "    ax.arrow(3.70, y_line - y_template, 0.0, -y_template*3, fc=\"k\", ec=\"k\",\n",
+    "             head_width=0.1, head_length=y_template*2)\n",
+    "\n",
+    "    ax.spines['top'].set_visible(False)  # remove the border top\n",
+    "    ax.spines['right'].set_visible(False)  # remove the border right\n",
+    "\n",
+    "\n",
+    "    bounds = np.linspace(0, 1, 12) # set the bound for color bar\n",
+    "    norm = mpl.colors.BoundaryNorm(bounds, cmap.N)\n",
+    "    cb = mpl.colorbar.ColorbarBase(ax_cb, cmap=cmap, norm=norm,drawedges=True,  ticks=bounds, boundaries=bounds,format='%.2f',orientation='horizontal')\n",
+    "\n",
+    "np.random.seed(12345) # allows to get the same random sequesnce at every launch of program\n",
+    "df = pd.DataFrame([np.random.normal(32000,200000,3650),\n",
+    "                   np.random.normal(43000,100000,3650),\n",
+    "                   np.random.normal(43500,140000,3650),\n",
+    "                   np.random.normal(48000,70000,3650)],\n",
+    "                  index=[1992,1993,1994,1995])\n",
+    "\n",
+    "df = df.T\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "ax_main= plt.gca()\n",
+    "ax_main.axis('off') # remove border and axis\n",
+    "ax = fig.add_axes([0.1, 0.1, 0.9, 0.9]) # create new axis to update x,y,length,hight\n",
+    "\n",
+    "fig.canvas.mpl_connect('button_press_event', onclick) # subscribe the event hander to event\n",
+    "cmap = plt.cm.jet # set the color schema\n",
+    "# cmap = mpl.cm.viridis # alternative color chema # https://matplotlib.org/examples/color/colormaps_reference.html\n",
+    "\n",
+    "ax_cb = fig.add_axes([0.2, 0.07, 0.75, 0.02]) # create new axis for color bar x,y,length,hight\n",
+    "plt.sca(ax) # set the current axis as active\n",
+    "update_plt() # draw the plot before any click"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "e03f4972",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "cmap(0) # (0.993248, 0.906157, 0.143936, 1.0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "5897b90d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig, ax = plt.subplots()\n",
+    "bounds = np.linspace(0, 1, 12) # set the bound for color bar\n",
+    "cmap = mpl.cm.magma \n",
+    "# cmap = mpl.cm.viridis # alternative color chema # https://matplotlib.org/examples/color/colormaps_reference.html\n",
+    "norm = mpl.colors.BoundaryNorm(bounds, cmap.N)\n",
+    "cb = mpl.colorbar.ColorbarBase(ax, cmap=cmap, norm=norm,drawedges=True,  ticks=bounds, boundaries=bounds,format='%.2f',orientation='horizontal')\n",
+    "print ('color for 100 of {}: {}'.format(cmap.N, cmap(100)[:3]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 39,
+   "id": "d7e9e396",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Review the style : https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html\n",
+    "plt.style.available # see the pre-defined styles provided"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "id": "9aae33e4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.style.use('seaborn-colorblind')\n",
+    "np.random.seed(123) \n",
+    "\n",
+    "#  Cumulative sum (running total) - total sum of data as it grows with time. \n",
+    "# here it is random steps \n",
+    "df = pd.DataFrame({'A': np.random.randn(365).cumsum(0),\n",
+    "                   'B': np.random.randn(365).cumsum(0) + 20,\n",
+    "                   'C': np.random.randn(365).cumsum(0) - 20},\n",
+    "                  index=pd.date_range('1/1/2023', periods=365))\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "4e61b18d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.plot();\n",
+    "# Note: labels , legend"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "18c76116",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.plot('A', 'B', kind='scatter')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "a932ace2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# alternative syntaxis df.plot.scatter instead of kind = 'scatter'\n",
+    "df.plot.scatter('A', 'C', c=df['B'], s=df['B'], colormap='viridis');\n",
+    "# Note:: colorbar"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "023f028e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.plot.hist(alpha=0.7, bins=100);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "225ca65b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.plot.kde(); # kernel density estimate"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "658dc5b6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.figure()\n",
+    "\n",
+    "# use subplot to demonstrate difference  \n",
+    "ax1 = plt.subplot(2,1, 1)\n",
+    "languages = ['Python','SQL', 'Java','C++', 'JavaScript']\n",
+    "popularity = np.array([56,39,34,34,29])\n",
+    "x_vals= range(len(popularity))\n",
+    "plt.bar (x_vals,popularity,align= 'center',alpha = 0.9)\n",
+    "plt.xticks(x_vals,languages,alpha = 0.9 )\n",
+    "\n",
+    "plt.ylabel('% popularity')\n",
+    "plt.title('Top 5 languages for math and data')\n",
+    "\n",
+    "ax_2 = plt.subplot(2,1,2)\n",
+    "\n",
+    "languages = ['Python','SQL', 'Java','C++', 'JavaScript']\n",
+    "popularity = np.array([56,39,34,34,29])\n",
+    "x_vals= range(len(popularity))\n",
+    "\n",
+    "bar_2= plt.bar (x_vals,popularity,align= 'center',alpha = 0.9, color= 'grey')\n",
+    "bar_2[0].set_color('#1F77B4')\n",
+    "\n",
+    "plt.xticks(x_vals,languages,alpha = 0.9 )\n",
+    "\n",
+    "# move the y-label to title \n",
+    "plt.title('Top 5 languages for math and data by % popularity')\n",
+    "\n",
+    "# hide axes ticks and y-axis labels \n",
+    "\n",
+    "plt.tick_params(\n",
+    "    top =False,\n",
+    "    bottom= True,\n",
+    "    left  = False,\n",
+    "    labelleft = False, \n",
+    "    labelbottom = True \n",
+    "    )\n",
+    "\n",
+    "\n",
+    "for bar in bar_2:\n",
+    "    ax_2.text(\n",
+    "        bar.get_x() + bar.get_width()/2, # set x position\n",
+    "        bar.get_height()-6, # set y position\n",
+    "        '{}%'.format(bar.get_height()), # # provide text\n",
+    "        ha= 'center',\n",
+    "        color= 'w',\n",
+    "        fontsize= 10\n",
+    "    )\n",
+    "\n",
+    "for spine in ax_2.spines.values():\n",
+    "    spine.set_visible(False)\n",
+    "\n",
+    "\n",
+    "plt.subplots_adjust(hspace = .6)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "6acec4bb",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import seaborn as sns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "0ee276ac",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "spotify_data = pd.read_csv(\"./data/spotify.csv\", index_col=\"Date\", parse_dates=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "e67a72c5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "spotify_data.sample(10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "ae9bc666",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure(figsize=(12,6))\n",
+    "plt.title(\"Daily Global Streams of Popular Songs in 2017-2018\")\n",
+    "sns.lineplot(data=spotify_data);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "24234561",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Set the width and height of the figure\n",
+    "fig = plt.figure(figsize=(12,6))\n",
+    "\n",
+    "# Add title\n",
+    "plt.title(\"Daily Global Streams of Popular Songs in 2017-2018\")\n",
+    "\n",
+    "# Line chart showing daily global streams of 'Shape of You'\n",
+    "sns.lineplot(data=spotify_data['Shape of You'], label=\"Shape of You\")\n",
+    "\n",
+    "# Line chart showing daily global streams of 'Despacito'\n",
+    "sns.lineplot(data=spotify_data['Despacito'], label=\"Despacito\")\n",
+    "\n",
+    "# Add label for horizontal axis\n",
+    "plt.xlabel(\"Date\");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "1ef2137f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure(figsize=(12,6))\n",
+    "\n",
+    "plt.title(\"Daily Global Streams of Popular Songs in 2017-2018\")\n",
+    "sns.lineplot(data=spotify_data[['Shape of You', 'Despacito']]);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "4ba5d6ec",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_flights = pd.read_csv(\"./data/flight_delays.csv\", index_col=\"Month\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "id": "8478dc8d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_flights.tail()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "0d3b9868",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Set the width and height of the figure\n",
+    "fig = plt.figure(figsize=(12,6))\n",
+    "\n",
+    "# Add title\n",
+    "plt.title(\"Average Arrival Delay for United Airlines Flights, by Month\")\n",
+    "\n",
+    "# Bar chart showing average arrival delay for United Airlines flights by month\n",
+    "sns.barplot(x=df_flights.index, y=df_flights['UA'])\n",
+    "\n",
+    "# Add label for vertical axis\n",
+    "plt.ylabel(\"Arrival delay (in minutes)\");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "4a6b7db1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Set the width and height of the figure\n",
+    "fig = plt.figure(figsize=(14,8))\n",
+    "\n",
+    "# Add title\n",
+    "plt.title(\"Average Arrival Delay for Each Airline, by Month\")\n",
+    "\n",
+    "# Heatmap showing average arrival delay for each airline by month\n",
+    "sns.heatmap(data=df_flights, annot=True, linewidths=0.1, cmap=\"rocket\")\n",
+    "\n",
+    "# Add label for horizontal axis\n",
+    "plt.xlabel(\"Airline code\");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "id": "895827aa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import plotly.express as px\n",
+    "import plotly.graph_objects as go"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "id": "b459d237",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "figure_config = {\n",
+    "    \"data\": [\n",
+    "        {\n",
+    "            \"type\": \"bar\",\n",
+    "            \"x\": [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"],\n",
+    "            \"y\": [28, 27, 25, 31, 32, 35, 36]\n",
+    "        }\n",
+    "    ],\n",
+    "    \"layout\": {\n",
+    "        \"title\": {\n",
+    "            \"text\": \"Temperatures of the week\",\n",
+    "            \"x\": 0.5,\n",
+    "            \"font\": {\n",
+    "                \"color\": \"red\",\n",
+    "                \"size\": 20\n",
+    "            }\n",
+    "        }\n",
+    "    }\n",
+    "}\n",
+    "\n",
+    "fig = go.Figure(figure_config)\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "a11fe1a8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_temps = pd.DataFrame({\n",
+    "    \"day\": [\"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\", \"Sunday\"],\n",
+    "    \"temp\": [28, 27, 25, 31, 32, 35, 36]\n",
+    "})\n",
+    "\n",
+    "df_temps"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "id": "6fad5ef2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "trace = go.Box(x=df_flights['UA'], name=\"Disctribution\", fillcolor='navy')\n",
+    "data = [trace]\n",
+    "fig = go.Figure(data)\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "id": "4801b970",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = px.bar(data_frame=df_temps, x=\"day\", y=\"temp\", title=\"Temperatures of the week\")\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 62,
+   "id": "1ce3df99",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = px.line(spotify_data)\n",
+    "fig.update_yaxes({\"title\":\"Amount of listens\"})\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "id": "951a08f5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "normal_distribution = np.random.randn(10000)\n",
+    "\n",
+    "fig = px.histogram(normal_distribution, nbins=100)\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "id": "54b7e3d6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df = pd.read_csv('./data/nycflights.csv')\n",
+    "df = df.drop(df.columns[[0]], axis=1)\n",
+    "df.sample(5)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "id": "459d30fc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dff = df['carrier'].value_counts()[:10]\n",
+    "dff = dff.append(pd.Series({\"others\": df['carrier'].value_counts()[10:].sum()}))\n",
+    "label = dff.index\n",
+    "size = dff.values\n",
+    "\n",
+    "colors = ['skyblue', '#FEBFB3', '#96D38C', '#D0F9B1', 'gold', 'orange', 'lightgrey', \n",
+    "          'lightblue','lightgreen','aqua']\n",
+    "\n",
+    "trace = go.Pie(labels=label, values=size, marker=dict(colors=colors), hole=0.2)\n",
+    "\n",
+    "data = [trace]\n",
+    "layout = go.Layout(\n",
+    "    title='Airline distribution'\n",
+    ")\n",
+    "\n",
+    "fig = go.Figure(data=data, layout=layout)\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "id": "afccf35c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "dff = df['origin'].value_counts()\n",
+    "label = dff.index\n",
+    "size = dff.values\n",
+    "\n",
+    "trace = go.Pie(labels=label, values=size, hole = 0.2)\n",
+    "\n",
+    "data = [trace]\n",
+    "layout = go.Layout(\n",
+    "    title='Origin airport distribution'\n",
+    ")\n",
+    "\n",
+    "fig = go.Figure(data=data, layout=layout)\n",
+    "fig.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "4b39fdb4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import interact "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "id": "89021ff8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def f(x):\n",
+    "    print(x * x)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 69,
+   "id": "b3a4aea4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x=(0, 100));"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "id": "18256fff",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import FloatSlider "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "id": "843b95f4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "slider = FloatSlider(\n",
+    "    value=7.5,\n",
+    "    min=5.0,\n",
+    "    max=10.0,\n",
+    "    step=0.1,\n",
+    "    description='Input:',\n",
+    ")\n",
+    "slider"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "id": "f96f3dd1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "slider"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "id": "f28a4023",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# get value \n",
+    "slider.value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 74,
+   "id": "f8db03da",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# set the value \n",
+    "slider.value = 7 # you cannot set less than min \n",
+    "slider.value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 75,
+   "id": "9b1093a4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "square = slider.value * slider.value\n",
+    "slider.value, square"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "53d7afaf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def handle_change(change):\n",
+    "#     print ('test1')\n",
+    "    global square\n",
+    "    square = change.new * change.new\n",
+    "#     print ('square = ', square)\n",
+    "slider.observe(handle_change, 'value')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "id": "b143a4a0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "slider"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "d867aa57",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# observe the square is updated \n",
+    "slider.value, square"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "id": "a560a18f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import FloatText, link, VBox"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "0c1f3408",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "text = FloatText(description='Value')\n",
+    "link((slider, 'value'), (text, 'value'))\n",
+    "slider"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "id": "beff6b10",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "text"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "id": "7478e7de",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# ay them out together\n",
+    "VBox([slider, text])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 83,
+   "id": "354d6bbc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def f(x):\n",
+    "    return 5 * x , x"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 84,
+   "id": "ca6b856c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x=10);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "id": "419b3edc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x=True);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "id": "769ccc65",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# True is casted to 1 and False - to 0 \n",
+    "5 * True"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "id": "059ca6a0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x='Hi there!');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "id": "4c27e1c9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@interact(x=True, y=1.0, z='hi')\n",
+    "def g(x, y, z):\n",
+    "    return (x, y, z)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "id": "2b8d1912",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def h(x, y, z):\n",
+    "    return (x, y,z)\n",
+    "interact(h,x =True, y=1.0, z= 'hi');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 90,
+   "id": "50e22af0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import fixed\n",
+    "interact(h, x=True, y=fixed(0.5), z='test');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 91,
+   "id": "fdf8ea4c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import IntSlider\n",
+    "IntSlider(min=-10,max=30,step=1,value=10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 92,
+   "id": "8c2b6096",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# the same as interact(f, x=10) but configuring IntSlider explicitely:\n",
+    "from ipywidgets import widgets\n",
+    "interact(f, x=widgets.IntSlider(min=-10, max=30, step=1, value=10));"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 93,
+   "id": "81e62e63",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x=['apples','oranges']);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "id": "c88de3f9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interact(f, x=[('one', 10), ('two', 20)]);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 95,
+   "id": "90585de9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import interactive\n",
+    "from IPython.display import display\n",
+    "\n",
+    "def f(a, b):\n",
+    "    display(a + b)\n",
+    "    return a+b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 96,
+   "id": "c6e9ace0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "w = interactive(f, a=10, b=20)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 97,
+   "id": "36f02827",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "type(w)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 98,
+   "id": "ac8e1df5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "w.children"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 99,
+   "id": "4429f8c0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "display(w)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 100,
+   "id": "cd461d92",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "w.kwargs"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "id": "4ba87430",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "w.result"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 102,
+   "id": "4e00e531",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np\n",
+    "\n",
+    "def f(k, b):\n",
+    "    plt.figure(2)\n",
+    "    x = np.linspace(-10, 10, num=1000)\n",
+    "    plt.plot(x, k * x + b)\n",
+    "    plt.ylim(-5, 5)\n",
+    "    plt.show()\n",
+    "f(0.2, 1)    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "id": "71bee925",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "interactive_plot = interactive(f, k=(-2.0, 2.0), b=(-3, 3, 0.5))\n",
+    "interactive_plot"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 104,
+   "id": "249c9bba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import interact_manual\n",
+    "def slow_function(i):\n",
+    "    \"\"\"\n",
+    "    Sleep for 1 second then print the argument\n",
+    "    \"\"\"\n",
+    "    from time import sleep\n",
+    "    print('Sleeping...')\n",
+    "    sleep(1)\n",
+    "    print('value = ',i)\n",
+    "\n",
+    "interact_manual(slow_function,i=widgets.FloatSlider(min=1e4, max=1e6, step=1e4));"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 105,
+   "id": "f4cd432a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "_interactive = interactive(slow_function, {'manual': True}, i=widgets.FloatSlider(min=1e4, max=1e6, step=1e4))\n",
+    "_interactive"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 106,
+   "id": "998979a1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import widgets\n",
+    "interact == widgets.interact"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 107,
+   "id": "515c2486",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def show_day(date):\n",
+    "    return date.strftime(\"%m-%d-%Y\")\n",
+    "    \n",
+    "    \n",
+    "import datetime\n",
+    "options= [datetime.datetime(2020, 2, 2, 1, 0), \n",
+    "          datetime.datetime(2020, 2, 3, 5, 0), \n",
+    "          datetime.datetime(2020, 2, 4, 9, 0), \n",
+    "          datetime.datetime(2020, 2, 5, 13, 0), \n",
+    "          datetime.datetime(2020, 2, 6, 17, 0), \n",
+    "          datetime.datetime(2020, 2, 7, 21, 0)]\n",
+    "options\n",
+    "slider = widgets.SelectionSlider(options=options, layout={'width': '700px'})\n",
+    "interact(\n",
+    "    show_day,\n",
+    "    date = slider\n",
+    ");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 108,
+   "id": "b221301b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "calendar = widgets.DatePicker(\n",
+    "           description='Select Date')\n",
+    "calendar"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 109,
+   "id": "5b27ba26",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "calendar.value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 110,
+   "id": "f77c8983",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# to handle changes\n",
+    "interact(\n",
+    "    show_day,\n",
+    "    date=calendar\n",
+    ");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 111,
+   "id": "c04c9f6f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "text = widgets.Text(\n",
+    "       value='My Text',\n",
+    "       description='Title', )\n",
+    "\n",
+    "slider = widgets.FloatSlider(\n",
+    "         value=1,\n",
+    "         min=0,\n",
+    "         max=10.0,\n",
+    "         step=0.1,)\n",
+    "menu = widgets.Dropdown(\n",
+    "       options=['red', 'blue', 'green'],\n",
+    "       value='red',\n",
+    "       description='Color:')\n",
+    "\n",
+    "checkbox = widgets.Checkbox(\n",
+    "           description='Check to invert',)\n",
+    "\n",
+    "box1 = widgets.VBox([text, slider])\n",
+    "box2 = widgets.VBox([menu, checkbox])\n",
+    "\n",
+    "children= widgets.HBox([box1, box2])\n",
+    "children"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 112,
+   "id": "3db499c2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# defining a list with the contents of our windows\n",
+    "children = [box1, box2]\n",
+    "# initializing a tab\n",
+    "tab = widgets.Tab()\n",
+    "# setting the tab windows \n",
+    "tab.children = children\n",
+    "# changing the title of the first and second window\n",
+    "tab.set_title(0, 'box1')\n",
+    "tab.set_title(1, 'box2')\n",
+    "tab"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 113,
+   "id": "dfc88a65",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "button = widgets.Button(description='New Button')\n",
+    "\n",
+    "def on_button_clicked(_): \n",
+    "    print('Something happens!')\n",
+    "# link button and function together using a button's method\n",
+    "button.on_click(on_button_clicked)\n",
+    "\n",
+    "button"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 114,
+   "id": "8a21d5ea",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Button, Layout\n",
+    "\n",
+    "b = Button(\n",
+    "    description='(50% width, 80px height) button',\n",
+    "    layout=Layout(width='50%', height='80px', border='2px dotted blue')\n",
+    ")\n",
+    "b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 115,
+   "id": "bee5f17e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "IntSlider(description='A too long description')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 116,
+   "id": "fec0e22f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "style = {'description_width': 'initial'}\n",
+    "IntSlider(description='A too long description', style=style)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 117,
+   "id": "85adf91d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b1 = Button(description='A', layout=Layout(border='2px solid green'))\n",
+    "b1.style.button_color = 'lightgreen'\n",
+    "b1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 118,
+   "id": "6d64f166",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b1.style.keys"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 119,
+   "id": "c9f0e746",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Button, HBox, VBox\n",
+    "\n",
+    "words = ['A', 'B', 'C', 'D']\n",
+    "items = [Button(description=w, layout=Layout(border='2px solid green')) for w in words]\n",
+    "left_box = VBox([items[0], items[1]])\n",
+    "right_box = VBox([items[2], items[3]])\n",
+    "HBox([left_box, right_box])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 120,
+   "id": "6100d98e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Layout, Button, Box, Label\n",
+    "\n",
+    "item_layout = Layout(height='100px', min_width='40px')\n",
+    "items = [Button(layout=item_layout, description=str(i), button_style='warning') for i in range(40)]\n",
+    "box_layout = Layout(overflow_x='scroll',\n",
+    "                    border='3px solid black',\n",
+    "                    width='500px',\n",
+    "                    height='',\n",
+    "                    flex_direction='row',\n",
+    "                    display='flex')\n",
+    "carousel = Box(children=items, layout=box_layout)\n",
+    "\n",
+    "VBox([Label('Scroll horizontally:'), carousel])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 121,
+   "id": "c1907b5f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "calendar.value"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 122,
+   "id": "5d70ce05",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# to handle changes\n",
+    "interact(\n",
+    "    show_day,\n",
+    "    date=calendar\n",
+    ");"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 123,
+   "id": "bc5ff94d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "text = widgets.Text(\n",
+    "       value='My Text',\n",
+    "       description='Title', )\n",
+    "\n",
+    "slider = widgets.FloatSlider(\n",
+    "         value=1,\n",
+    "         min=0,\n",
+    "         max=10.0,\n",
+    "         step=0.1,)\n",
+    "menu = widgets.Dropdown(\n",
+    "       options=['red', 'blue', 'green'],\n",
+    "       value='red',\n",
+    "       description='Color:')\n",
+    "\n",
+    "checkbox = widgets.Checkbox(\n",
+    "           description='Check to invert',)\n",
+    "\n",
+    "box1 = widgets.VBox([text, slider])\n",
+    "box2 = widgets.VBox([menu, checkbox])\n",
+    "\n",
+    "children= widgets.HBox([box1, box2])\n",
+    "children"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 124,
+   "id": "0b38f7db",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# defining a list with the contents of our windows\n",
+    "children = [box1, box2]\n",
+    "# initializing a tab\n",
+    "tab = widgets.Tab()\n",
+    "# setting the tab windows \n",
+    "tab.children = children\n",
+    "# changing the title of the first and second window\n",
+    "tab.set_title(0, 'box1')\n",
+    "tab.set_title(1, 'box2')\n",
+    "tab"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 125,
+   "id": "72dbc0a1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "button = widgets.Button(description='New Button')\n",
+    "\n",
+    "def on_button_clicked(_): \n",
+    "    print('Something happens!')\n",
+    "# link button and function together using a button's method\n",
+    "button.on_click(on_button_clicked)\n",
+    "\n",
+    "button"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 126,
+   "id": "2db30066",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Button, Layout\n",
+    "\n",
+    "b = Button(\n",
+    "    description='(50% width, 80px height) button',\n",
+    "    layout=Layout(width='50%', height='80px', border='2px dotted blue')\n",
+    ")\n",
+    "b"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 127,
+   "id": "e266ac90",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "IntSlider(description='A too long description')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "id": "72d3e210",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "style = {'description_width': 'initial'}\n",
+    "IntSlider(description='A too long description', style=style)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 129,
+   "id": "c918de3b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b1 = Button(description='A', layout=Layout(border='2px solid green'))\n",
+    "b1.style.button_color = 'lightgreen'\n",
+    "b1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 130,
+   "id": "3a8ef043",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "b1.style.keys"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 131,
+   "id": "7bfc7bae",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Button, HBox, VBox\n",
+    "\n",
+    "words = ['A', 'B', 'C', 'D']\n",
+    "items = [Button(description=w, layout=Layout(border='2px solid green')) for w in words]\n",
+    "left_box = VBox([items[0], items[1]])\n",
+    "right_box = VBox([items[2], items[3]])\n",
+    "HBox([left_box, right_box])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 132,
+   "id": "52a6d2e6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from ipywidgets import Layout, Button, Box, Label\n",
+    "\n",
+    "item_layout = Layout(height='100px', min_width='40px')\n",
+    "items = [Button(layout=item_layout, description=str(i), button_style='warning') for i in range(40)]\n",
+    "box_layout = Layout(overflow_x='scroll',\n",
+    "                    border='3px solid black',\n",
+    "                    width='500px',\n",
+    "                    height='',\n",
+    "                    flex_direction='row',\n",
+    "                    display='flex')\n",
+    "carousel = Box(children=items, layout=box_layout)\n",
+    "\n",
+    "VBox([Label('Scroll horizontally:'), carousel])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 133,
+   "id": "1105b823",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.plot(1, 3) # no mark\n",
+    "plt.plot(1.5, 0, '.') # small point\n",
+    "plt.plot(1.5, 4, 'x') # x mark\n",
+    "plt.plot(2, 2, 'o')\n",
+    "plt.plot([1, 3, 5], [3, 5, -1], '-o', c='red') # joined\n",
+    "plt.show();\n",
+    "# Note\n",
+    "    # different colors since it considers as different series\n",
+    "    # This is scripting layer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 134,
+   "id": "20179138",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import matplotlib.pyplot as plt\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 135,
+   "id": "68b690a1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.plot(1, 3) # no mark\n",
+    "plt.plot(1.5, 0, '.') # small point\n",
+    "plt.plot(1.5, 4, 'x') # x mark\n",
+    "plt.plot(2, 2, 'o')\n",
+    "plt.plot([1, 3, 5], [3, 5, -1], '-o', c='red') # joined\n",
+    "plt.show();\n",
+    "# Note\n",
+    "    # different colors since it considers as different series\n",
+    "    # This is scripting layer"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 136,
+   "id": "9d07ad9c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "rng = np.random.RandomState(2023)\n",
+    "\n",
+    "# create new figure\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "for marker in ['o', '.', ',', 'x', '+', 'v', '^', '<', '>', 's', 'd']:\n",
+    "    plt.plot(rng.rand(5), rng.rand(5), marker, label=f\"marker='{marker}'\")\n",
+    "\n",
+    "plt.legend()\n",
+    "plt.xlim(0, 2);\n",
+    "plt.title('Scatterplot')\n",
+    "plt.xlabel('x-labels')\n",
+    "plt.ylabel('y-labels');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 137,
+   "id": "e376ad79",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "\n",
+    "y = np.arange(0, 10, 2)\n",
+    "plt.plot(y, '-o');\n",
+    "# Note x-vals resolved automatically"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 138,
+   "id": "51ff0a99",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = np.linspace(0, 10, 20)\n",
+    "y = np.sin(x)\n",
+    "\n",
+    "fig = plt.figure()\n",
+    "\n",
+    "plt.plot(\n",
+    "    x,\n",
+    "    y,\n",
+    "    '-p',\n",
+    "    color='gray',\n",
+    "    markersize=15,\n",
+    "    linewidth=4,\n",
+    "    markerfacecolor='white',\n",
+    "    markeredgecolor='gray',\n",
+    "    markeredgewidth=2\n",
+    ")\n",
+    "\n",
+    "plt.ylim(-1.5, 1.5);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 139,
+   "id": "9faf979e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "linear_data = np.arange(10)\n",
+    "exponential_data = linear_data ** 2\n",
+    "plt.plot(linear_data, '-og')\n",
+    "plt.plot(exponential_data, '--ob')\n",
+    "plt.fill_between(range(10), linear_data, exponential_data, facecolors='yellow', alpha=0.15);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 140,
+   "id": "b80f314f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# scripting layer \n",
+    "fig = plt.figure()\n",
+    "plt.plot(1, 2, 'x')\n",
+    "plt.title('simple_plot')\n",
+    "\n",
+    "# go down to artist layer\n",
+    "ax = plt.gca() # get current axis \n",
+    "ax.axis([0, 3, -2, 5])\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 141,
+   "id": "ba1c6a04",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "pd.read_csv(\"./data/Car_Insurance_Claim.csv\").head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 142,
+   "id": "46c2619d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "pd.read_csv(\"./data/Car_Insurance_Claim.csv\")['RACE'].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 143,
+   "id": "37a5ce7b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "pd.read_csv(\"./data/Car_Insurance_Claim.csv\").head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 144,
+   "id": "28a23bba",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "pd.read_csv(\"./data/Car_Insurance_Claim.csv\").info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 145,
+   "id": "cbf21110",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "pd.read_csv(\"./data/Car_Insurance_Claim.csv\").head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 146,
+   "id": "e83683b7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0,0,0.95,.95])\n",
+    "ax2 = fig.add_axes([0.5,0.1,0.4,0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample) \n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 147,
+   "id": "bfc8f6f7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.95, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample) \n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 148,
+   "id": "efe3e0a9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.95, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample) \n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 149,
+   "id": "168826a2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0, 0])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample)\n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 150,
+   "id": "f310078f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.95, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample)\n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 151,
+   "id": "3eeb7413",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.8, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample)\n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 152,
+   "id": "1e90d2b4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.95, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample)\n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 153,
+   "id": "994bb65f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "%notebook inline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 154,
+   "id": "6fedc453",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "fig = plt.figure()\n",
+    "ax1= fig.add_axes([0, 0, 0.95, .95])\n",
+    "ax2 = fig.add_axes([0.5, 0.1, 0.4, 0.4])\n",
+    "sample = np.random.normal(loc=0.0, scale=1.0, size=10000)\n",
+    "ax1.hist(sample)\n",
+    "ax1.set_title('n=10')\n",
+    "\n",
+    "ax2.hist(sample, bins=100) # hist displays by default 10 bins\n",
+    "ax2.set_title('n=1000');"
+   ]
+  }
+ ],
+ "metadata": {},
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

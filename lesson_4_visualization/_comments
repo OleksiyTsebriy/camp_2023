@@ -1,0 +1,15 @@
+
+Є кілька уточнень по ноутбуку з візуалізацією
+Якби раптом в когось виникали труднощі з невідображенням графіків Plotly в JupyterLab, то потрібно додатково встановити NodeJS і розширення для JupyterLab -  jupyterlab-plotly.
+!jupyter labextension install jupyterlab-plotly
+ Після цього треба запустити JupyterLab заново.
+Також випадково з’явилась опечатка в коді після Matplotlib “Adjusting the Plot: Line Colors and Styles”.
+Замість
+plt.plot(x, np.sin(x -s
+Повинно бути
+plt.plot(x, np.sin(x - 0), color='blue') # specify color by name
+plt.plot(x, np.sin(x - 1), color='g') # short color code (rgbcmyk)
+plt.plot(x, np.sin(x - 2), color='0.75') # grayscale between 0 and 1
+plt.plot(x, np.sin(x - 3), color='#FFDD44') # Hex code (RRGGBB from 00 to FF)
+plt.plot(x, np.sin(x - 4), color=(1.0,0.2,0.3)) # RGB tuple, values 0 and 1
+plt.plot(x, np.sin(x - 5), color='chartreuse'); # all HTML color names supported
