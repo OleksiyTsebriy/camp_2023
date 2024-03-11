@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <h2 style="margin: 20pt">Hi, it's {{time}}</h2>
+
+    <form
+      id="upload_form"
+      action="{{ url_for('get_yolo_objects') }}"
+      method="POST"
+      enctype="multipart/form-data"
+      style="margin: 25pt"
+    >
+      <br />
+      <div class="mb-3" style="width: 40%">
+        <label for="formFile" class="form-label">Image path:</label>
+        <input
+          class="form-control"
+          type="file"
+          id="formFile"
+          name="image"
+          accept="image/*"
+        />
+      </div>
+      <br />
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Send</button>
+      </div>
+    </form>
+  </body>
+</html>
