@@ -1,0 +1,7 @@
+gradio==3.44.1
+gradio_client==0.5.0
+fastapi==0.109.0
+ultralytics==8.1.8
+uvicorn==0.22.0
+opencv-python
+Jinja2==3.1.2

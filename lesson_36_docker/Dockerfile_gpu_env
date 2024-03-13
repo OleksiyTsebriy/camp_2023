@@ -1,0 +1,40 @@
+FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
+RUN pip install --no-cache nvidia-tensorrt --index-url https://pypi.ngc.nvidia.com
+
+ENV HOME /root
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+   && apt-get install -y \
+       vim \
+       build-essential \
+       cmake \
+       git \
+       wget \
+       unzip \
+   && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+     bzip2 \
+     g++ \
+     git \
+     graphviz \
+     libgl1-mesa-glx \
+     libhdf5-dev \
+     openmpi-bin \
+     screen && \
+   rm -rf /var/lib/apt/lists/* \
+   apt-get upgrade
+
+RUN pip install 8888--upgrade pip \
+   && pip3 install \
+   Cython gdown \
+   matplotlib \
+   notebook jupyterlab \
+   && rm -fr /root/.cache
+
+VOLUME [ "/work" ]
+WORKDIR /work
+
+EXPOSE 8888
+CMD ["jupyter", "notebook", "--no-browser", "--ip=0.0.0.0", "--port=8888", "--allow-root"]
